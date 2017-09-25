@@ -1,0 +1,20 @@
+<form novalidate #f="ngForm" [formGroup]="form">
+  <dx-validation-group>
+    <div class="dx-fieldset">
+      <div class="container">
+        <div class="dx-field">
+          <div class="dx-field-label">Default mode</div>
+          <div class="dx-field-value">
+            <dx-text-box formControlName="email" maxlength="6" minlength="2" name="email" #emailElement [isValid]="emailControl.valid || emailControl.pristine " [validationError]="{ message: 'Email is invalid'}">
+              <dx-validator [validationRules]="validationRules.email" ></dx-validator>
+            </dx-text-box>
+          </div>
+        </div>
+      </div>
+
+      <dx-validation-summary></dx-validation-summary>
+
+      <dx-button (onClick)="validate($event)" text="Submit" [disabled]="!f.valid"></dx-button>
+    </div>
+  </dx-validation-group>
+</form>
