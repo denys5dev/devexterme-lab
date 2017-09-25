@@ -1,13 +1,16 @@
 <form novalidate #f="ngForm" [formGroup]="form">
+  {{email.errors.errors?.shouldBeUniqe}}
+  <div *ngIf="email.errors.shouldBeUniqe">Check ...</div>
   <dx-validation-group>
     <div class="dx-fieldset">
       <div class="container">
         <div class="dx-field">
           <div class="dx-field-label">Default mode</div>
           <div class="dx-field-value">
-            <dx-text-box formControlName="email" maxlength="6" minlength="2" name="email" #emailElement [isValid]="emailControl.valid || emailControl.pristine " [validationError]="{ message: 'Email is invalid'}">
-              <dx-validator [validationRules]="validationRules.email" ></dx-validator>
-            </dx-text-box>
+            <!-- <dx-text-box formControlName="email" maxlength="6" minlength="2" name="email" #emailElement [isValid]="emailControl.valid || emailControl.pristine " [validationError]="{ message: 'Email is invalid'}">
+              <dx-validator [validationRules]="validationRules.email"></dx-validator>
+            </dx-text-box> -->
+            <input type="text" name="email" formControlName="email" (keyup.enter)="onInit($event)">
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { DxTextBoxComponent } from 'devextreme-angular';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, OnChanges } from '@angular/core';
+import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators, ValidationErrors } from '@angular/forms';
+import { EmailValidation } from "./../common/common.validators";
 
 @Component({
     selector: 'validataion-app',
@@ -8,10 +9,10 @@ import { FormGroup, FormControl, FormBuilder, AbstractControl, Validators } from
     styleUrls:['./validation.component.css']
 })
 
-export class ValidationComponent implements OnInit {
+export class ValidationComponent implements OnInit, OnChanges {
     @ViewChild('emailElement') emailElement: DxTextBoxComponent;
     form: FormGroup;
-    email: string;
+
     emailControl: AbstractControl;
     
     validationRules = {
@@ -23,19 +24,29 @@ export class ValidationComponent implements OnInit {
     };
     constructor() { }
 
+    get email() {
+        return this.form.get('email')
+    }
+
+    ngOnChanges() {
+      
+    }
+
     ngOnInit() { 
         this.form = new FormGroup({
-            email: new FormControl('', Validators.compose([Validators.required]))
+            email: new FormControl('', [Validators.required, EmailValidation.shouldBeUniqe, Validators.minLength(3)])
         });
-        this.emailControl = this.form.controls['email'];
     }
 
     validate(params) {
-        console.log(this.emailControl)
         let result = params.validationGroup.validate();
         if (result.isValid) {
             // form data is valid
             // params.validationGroup.reset();
         }
+    }
+
+    onInit(event) {
+        console.log(this.email)
     }
 }
